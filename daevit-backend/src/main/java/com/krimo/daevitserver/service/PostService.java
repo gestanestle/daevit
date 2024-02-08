@@ -8,20 +8,21 @@ import com.krimo.daevitserver.model.User;
 import com.krimo.daevitserver.repository.PostRepository;
 import com.krimo.daevitserver.repository.UserRepository;
 import jakarta.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public interface PostService {
     Long createPost(PostWriteDTO postDTO);
     PostReadDTO getPost(Long id);
-    Page<PostReadDTO> getAllPosts(int pageNo, int pageSize);
+    List<PostReadDTO> getAllPosts(int pageNo, int pageSize);
     void updatePost(Long postId, PostWriteDTO postDTO);
     void deletePost(Long postId);
 
@@ -55,9 +56,9 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostReadDTO> getAllPosts(int pageNo, int pageSize) {
+    public List<PostReadDTO> getAllPosts(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return postRepository.findAll(pageable).map(this::mapToPostDTO);
+        return postRepository.findAll(pageable).map(this::mapToPostDTO).toList();
     }
 
     @Override

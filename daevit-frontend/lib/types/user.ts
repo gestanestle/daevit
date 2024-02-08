@@ -3,8 +3,8 @@ import { z } from "zod";
 export const UserSchema = z.object({
   authId: z.string(),
   username: z.string(),
-  lastName: z.string().optional(),
-  firstName: z.string().optional(),
+  lastName: z.string().nullish(),
+  firstName: z.string().nullish(),
   profileImageURL: z.string(),
 });
 

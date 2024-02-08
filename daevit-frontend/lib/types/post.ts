@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { UserSchema } from "./user";
-import { type } from "os";
 
 const ZDate = z.string().transform((str: string) => new Date(str));
 

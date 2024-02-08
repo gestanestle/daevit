@@ -18,7 +18,7 @@ export default function Write() {
   return (
     <>
       <div
-        className="h-fit w-1/2 bg-base-300 rounded-lg"
+        className="h-fit w-full sm:w-3/4 lg:w-1/2 bg-base-300 rounded-lg"
         onClick={() => document.getElementById("write_post_modal")!.showModal()}
       >
         <div className="px-4 py-4 flex space-x-2">
@@ -42,7 +42,7 @@ export default function Write() {
       </div>
 
       <dialog id="write_post_modal" className="modal">
-        <div className="modal-box w-11/12 max-w-5xl rounded-lg overflow-hidden">
+        <div className="modal-box w-11/12 sm:w-3/4 lg:3/4 max-w-5xl rounded-lg overflow-hidden">
           <p className="font-bold text-center text-2xl pb-4">Write post</p>
 
           <form action={handleForm}>

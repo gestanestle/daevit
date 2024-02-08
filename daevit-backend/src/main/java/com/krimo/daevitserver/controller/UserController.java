@@ -1,5 +1,6 @@
 package com.krimo.daevitserver.controller;
 
+import com.krimo.daevitserver.dto.ResponseBody;
 import com.krimo.daevitserver.dto.UserDTO;
 import com.krimo.daevitserver.dto.user.Event;
 import com.krimo.daevitserver.service.UserService;
@@ -42,7 +43,8 @@ public class UserController {
     }
 
     @GetMapping(path = "{authId}")
-    ResponseEntity<UserDTO> getUser(@PathVariable("authId") String authId) {
-        return new ResponseEntity<>(userService.getUser(authId), HttpStatus.OK);
+    ResponseEntity<ResponseBody> getUser(@PathVariable("authId") String authId) {
+        UserDTO user = userService.getUser(authId);
+        return new ResponseEntity<>(new ResponseBody(200, user, "User successfully retrieved."), HttpStatus.OK);
     }
 }

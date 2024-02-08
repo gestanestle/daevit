@@ -17,7 +17,7 @@ export default function Post({
 }: PostRead) {
   return (
     <>
-      <div className="h-fit w-1/2 bg-base-300 rounded-lg">
+      <div className="h-fit w-full sm:w-3/4 lg:w-1/2 bg-base-300 rounded-lg">
         <div className="px-4 pt-4 flex space-x-2 text-sm">
           <div className="flex-initial">
             <div className="avatar">

@@ -1,4 +1,3 @@
-import Post from "@/components/Post";
 import {
   PostRead,
   PostWrite,
@@ -20,9 +19,9 @@ export async function getAllPosts(
       }
     );
 
-    const data = await res.json();
+    const json = await res.json();
 
-    const posts: PostRead[] = data.content.map((content: any) =>
+    const posts: PostRead[] = json.data.map((content: any) =>
       PostReadSchema.parse(content)
     );
 
@@ -46,16 +45,13 @@ export async function submitPost(
   console.log(post);
 
   try {
-    // const header = new Headers();
-    // header.append("Content-Type", "application/json");
-
-    const res = await fetch(`http://localhost:8081/api/v1/posts`, {
+    const res = await fetch(`/api/v1/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post),
-      mode: "no-cors",
+      // mode: "no-cors",
     });
 
     if (!res.ok) {
@@ -73,13 +69,13 @@ export async function submitPost(
 
 export async function getPost(id: number): Promise<PostRead | undefined> {
   try {
-    const res = await fetch(process.env.SERVER_HOST + `/api/v1/posts/${id}`, {
+    const res = await fetch(`/api/v1/posts/${id}`, {
       method: "GET",
       next: { revalidate: 3600 },
     });
 
-    const data = await res.json();
-    const post = PostReadSchema.parse(data);
+    const json = await res.json();
+    const post = PostReadSchema.parse(json.data);
     return post;
   } catch (e) {
     console.log(e);
