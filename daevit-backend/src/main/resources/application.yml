@@ -3,6 +3,10 @@ spring:
   application:
     name: Daevit Server
 
+  graphql:
+    graphiql:
+      enabled: true
+
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver

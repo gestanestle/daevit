@@ -1,0 +1,33 @@
+type Query {
+    getPostById(postId: Int): Post
+    getPosts(offset: Int, count: Int): [Post]
+}
+
+type Mutation {
+    createPost(title: String, flair: String, content: String, author_authId: String): Post
+    updatePost(postId: Int, title: String, flair: String, content: String): Post
+    deletePost(postId: Int): Int
+}
+
+type Post {
+    postId: ID!
+    title: String
+    flair: String
+    content: String
+    createdAt: String
+    updatedAt: String
+    author: User
+}
+
+type User {
+    userId: ID
+    authId: String!
+    username: String
+    email: String,
+    birthdate: String
+    lastName: String
+    firstName: String
+    profileImageURL: String
+    createdAt: String
+    updatedAt: String
+}
