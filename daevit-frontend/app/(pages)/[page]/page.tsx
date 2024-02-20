@@ -1,14 +1,13 @@
 import Post from "@/components/Post";
 import Write from "@/components/Write";
 import { getAllPosts } from "@/lib/actions/PostService";
-import UserProvider from "@/lib/contexts/UserContext";
-import { PostRead } from "@/lib/types/post";
+import { PostRead, PostReadSchema } from "@/lib/types/post";
 import { SignedIn } from "@clerk/nextjs";
-import React from "react";
 
 export default async function page({ params }: { params: { page: number } }) {
   const posts: PostRead[] | undefined = await getAllPosts(params.page, 50);
 
+  console.log(process.env.SERVER_HOST);
   return (
     <>
       <div className="grid justify-items-center grid-cols-1 gap-4 py-4">

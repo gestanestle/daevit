@@ -3,10 +3,10 @@ import { submitPost } from "@/lib/actions/PostService";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-const handleForm = async (formData: FormData) => {
-  const res = await submitPost(formData);
+const handleForm = (formData: FormData) => {
+  // const res = await submitPost(formData);
 
-  console.log(res);
+  // console.log(res);
 
   redirect("/");
 };

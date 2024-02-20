@@ -9,26 +9,46 @@ export async function getAllPosts(
   pageNo: number,
   pageSize: number
 ): Promise<PostRead[] | undefined> {
-  try {
-    const res = await fetch(
-      process.env.SERVER_HOST +
-        `/api/v1/posts?pageNo=${pageNo}&pageSize=${pageSize}`,
-      {
-        method: "GET",
-        next: { revalidate: 3600 },
+  const query = {
+    query: `
+      query {
+        getPosts(offset: 1, count: 10) {
+          postId
+          title
+          content
+          author {
+            authId
+            username
+            profileImageURL
+          }
+        }
       }
-    );
+    `,
+  };
+
+  try {
+    const res = await fetch(process.env.SERVER_HOST + `/api/v1/graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+      next: { revalidate: 3600 },
+    });
 
     const json = await res.json();
 
-    const posts: PostRead[] = json.data.map((content: any) =>
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+
+    const posts: PostRead[] = json.data.getPosts.map((content: any) =>
       PostReadSchema.parse(content)
     );
 
     return posts;
   } catch (e) {
     console.log(e);
-    throw new Error();
   }
 }
 

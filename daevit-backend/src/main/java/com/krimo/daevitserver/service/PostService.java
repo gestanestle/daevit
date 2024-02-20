@@ -1,9 +1,7 @@
 package com.krimo.daevitserver.service;
 
 import com.krimo.daevitserver.model.Post;
-import com.krimo.daevitserver.model.User;
 import com.krimo.daevitserver.repository.PostRepository;
-import com.krimo.daevitserver.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -12,9 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 public interface PostService {
     Post savePost(Post post);
