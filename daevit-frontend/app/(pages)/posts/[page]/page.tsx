@@ -1,17 +1,15 @@
 import PostBox from "@/components/PostBox";
-import Write from "@/components/Write";
-import { getAllPosts, hasLike } from "@/lib/actions/PostService";
+import { getPost } from "@/lib/actions/PostService";
 import { Post } from "@/lib/types/post";
 import { SignedIn } from "@clerk/nextjs";
 
 export default async function page({ params }: { params: { page: number } }) {
-  const posts: Post[] | undefined = await getAllPosts(params.page, 50);
+  const post: Post | undefined = await getPost(params.page);
   return (
     <>
       <div className="grid justify-items-center grid-cols-1 gap-4 py-4">
         <SignedIn>
-          <Write />
-          {posts?.map((post) => (
+          {post != undefined && (
             <PostBox
               postId={post.postId}
               title={post.title}
@@ -24,7 +22,7 @@ export default async function page({ params }: { params: { page: number } }) {
                 profileImageURL: post.author.profileImageURL,
               }}
             />
-          ))}
+          )}
         </SignedIn>
       </div>
     </>

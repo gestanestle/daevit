@@ -3,6 +3,11 @@ spring:
   application:
     name: Daevit Server
 
+  graphql:
+    graphiql:
+      enabled: true
+    path: /api/v1/graphql
+
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -10,18 +15,28 @@ spring:
     username: postgres
     password: postgres
 
+# Database migration
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/daevit
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    fail-on-missing-locations: true
+    user: postgres
+    password: postgres
+
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
-    generate-ddl: true
-    properties:
-      hibernate:
-        format_sql: true
+      ddl-auto: validate
+#    show-sql: true
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    open-in-view: false
+#    generate-ddl: false
+#    properties:
+#      hibernate:
+#        format_sql: true
 
 # Logger configuration
 logging:

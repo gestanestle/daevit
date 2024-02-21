@@ -1,6 +1,5 @@
 package com.krimo.daevitserver.service;
 
-import com.krimo.daevitserver.dto.UserDTO;
 import com.krimo.daevitserver.dto.user.payload.UserData;
 import com.krimo.daevitserver.model.User;
 import com.krimo.daevitserver.repository.UserRepository;
@@ -13,7 +12,7 @@ import java.time.ZoneId;
 
 public interface UserService {
     void createUser(UserData userData);
-    UserDTO getUser(String authId);
+    User getUser(String authId);
     void deleteUser(String id);
 }
 
@@ -44,9 +43,10 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUser(String authId) {
+    public User getUser(String authId) {
         User user = userRepository.getUserByAuthId(authId).orElseThrow();
-        return new UserDTO(user.getAuthId(), user.getUsername(), user.getLastName(), user.getFirstName(), user.getProfileImageURL());
+        return user;
+//        return new UserDTO(user.getAuthId(), user.getUsername(), user.getLastName(), user.getFirstName(), user.getProfileImageURL());
     }
 
 
