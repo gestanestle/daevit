@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     @Column(nullable = false)
     private String title;
@@ -20,7 +20,7 @@ public class Post {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @ManyToOne @JoinColumn(name = "author_userId")
+    @ManyToOne @JoinColumn(name = "author_user_id")
     private User author;
 
     public Post(String title, String flair, String content, LocalDateTime createdAt, LocalDateTime updatedAt, User author) {

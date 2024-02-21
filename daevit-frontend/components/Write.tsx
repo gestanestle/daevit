@@ -3,18 +3,24 @@ import { submitPost } from "@/lib/actions/PostService";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-const handleForm = (formData: FormData) => {
-  // const res = await submitPost(formData);
+const handleForm = async (formData: FormData) => {
+  const postId = await submitPost(formData);
 
-  // console.log(res);
-
-  redirect("/");
+  redirect(`/posts/${postId}`);
 };
 
 export default function Write() {
   const clerkUser = useUser();
   const user = clerkUser.user;
+  const authId = user?.id as string;
 
+  const flairs: string[] = [
+    "Discussion",
+    "Rant",
+    "Memes",
+    "Question",
+    "Casual",
+  ];
   return (
     <>
       <div
@@ -50,13 +56,23 @@ export default function Write() {
               <div className="flex-1 basis-3/4 h-full">
                 <input
                   name="title"
-                  className="appearance-none h-full w-full bg-transparent rounded-lg border border-white 
-                px-4"
+                  className="input input-bordered input-secondary h-full w-full px-4"
                   placeholder="Title"
                   required
                 />
               </div>
-              <div className="flex-1 basis-1/4 h-full"></div>
+              <div className="flex-1 basis-1/4 h-full">
+                <select
+                  className="select select-secondary w-full h-full max-w-xs"
+                  name="flair"
+                >
+                  {flairs.map((f) => (
+                    <option value={f} key={f}>
+                      {f}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="flex w-full h-96 py-8">
               <textarea
@@ -82,7 +98,7 @@ export default function Write() {
                 placeholder="Submit"
               />
             </div>
-            <input name="author_authId" value={user?.id} hidden />
+            <input name="author_authId" value={authId} hidden />
           </form>
         </div>
         <form method="dialog" className="modal-backdrop">

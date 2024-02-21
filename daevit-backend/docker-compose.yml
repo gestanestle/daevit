@@ -17,3 +17,4 @@ services:
 networks:
   daevit-server-network:
     name: daevit-server-network
+

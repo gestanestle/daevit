@@ -35,8 +35,13 @@ const nextConfig = {
         source: "/api/:path*",
         destination: `${process.env.SERVER_HOST}/api/:path*`,
       },
+      // {
+      //   source: "/undefined/api/:path*",
+      //   destination: `${process.env.SERVER_HOST}/api/:path*`,
+      // },
     ];
   },
+  plugins: [require("daisyui")],
 };
 
 module.exports = nextConfig;

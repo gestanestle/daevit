@@ -8,7 +8,7 @@ type Mutation {
     title: String
     flair: String
     content: String
-    author_authId: String
+    author: String
   ): Post
   updatePost(postId: Int, title: String, flair: String, content: String): Post
   deletePost(postId: Int): Int

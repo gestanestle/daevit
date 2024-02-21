@@ -1,4 +1,4 @@
-package com.krimo.daevitserver.exception;
+package com.krimo.daevitserver.dto;
 
 public record ResponseBody(
         Integer status,

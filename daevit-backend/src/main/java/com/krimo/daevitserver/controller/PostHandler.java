@@ -44,8 +44,8 @@ public class PostHandler {
     public Post createPost(@Argument String title,
                            @Argument String flair,
                            @Argument String content,
-                           @Argument String author_authId) {
-        Post post = Post.create(title, flair, content, userService.getUser(author_authId));
+                           @Argument String author) {
+        Post post = Post.create(title, flair, content, userService.getUser(author));
         return  postService.savePost(post);
     }
 

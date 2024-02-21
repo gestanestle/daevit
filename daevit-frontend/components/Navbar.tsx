@@ -42,7 +42,9 @@ export default function Navbar() {
             </ul>
           </div>
           <div className="flex-1">
-            <a className="btn btn-ghost text-xl">daevit</a>
+            <a className="btn btn-ghost text-xl" href="/">
+              daevit
+            </a>
           </div>
         </div>
         <div className="navbar-center">
