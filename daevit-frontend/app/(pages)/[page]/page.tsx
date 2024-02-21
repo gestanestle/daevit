@@ -23,6 +23,9 @@ export default async function page({ params }: { params: { page: number } }) {
                 username: post.author.username,
                 profileImageURL: post.author.profileImageURL,
               }}
+              likes={post.likes}
+              comments={post.comments}
+              shares={post.shares}
             />
           ))}
         </SignedIn>

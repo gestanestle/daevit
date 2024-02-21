@@ -2,7 +2,6 @@
 
 import { doLike, doShare, hasLike, hasShare } from "@/lib/actions/PostService";
 import { useUser } from "@clerk/nextjs";
-import { redirect } from "next/dist/server/api-utils";
 import React, { useEffect, useState } from "react";
 import {
   BsHeartFill,
@@ -12,6 +11,13 @@ import {
   BsShareFill,
 } from "react-icons/bs";
 
+type LCS = {
+  postId: string;
+  likes: number;
+  comments: number;
+  shares: number;
+};
+
 const handleLike = async (formData: FormData) => {
   await doLike(formData);
 };
@@ -20,7 +26,7 @@ const handleShare = async (formData: FormData) => {
   await doShare(formData);
 };
 
-export default function PostFooter({ postId }: { postId: string }) {
+export default function PostFooter({ postId, likes, comments, shares }: LCS) {
   const clerkUser = useUser();
   const user = clerkUser.user;
   const authId = user?.id as string;
@@ -28,10 +34,18 @@ export default function PostFooter({ postId }: { postId: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isShared, setIsShared] = useState(false);
 
+  const [lcs, setLcs] = useState<LCS>({
+    postId: postId,
+    likes: likes,
+    comments: comments,
+    shares: shares,
+  });
+
   async function fetchLike(postId: string) {
     const res = await hasLike(postId, authId);
     setIsLiked(res);
   }
+
   async function fetchShare(postId: string) {
     const res = await hasShare(postId, authId);
     setIsShared(res);
@@ -46,7 +60,13 @@ export default function PostFooter({ postId }: { postId: string }) {
         <form
           action={handleLike}
           onSubmit={() => {
-            isLiked ? setIsLiked(false) : setIsLiked(true);
+            if (isLiked) {
+              setIsLiked(false);
+              setLcs((lcs) => ({ ...lcs, likes: lcs.likes - 1 }));
+            } else {
+              setIsLiked(true);
+              setLcs((lcs) => ({ ...lcs, likes: lcs.likes + 1 }));
+            }
           }}
         >
           <input name="postId" value={postId} hidden />
@@ -55,19 +75,25 @@ export default function PostFooter({ postId }: { postId: string }) {
             {isLiked ? <BsHeartFill /> : <BsHeart />}
           </button>
         </form>
-        <p>18.k likes</p>
+        <p>{lcs.likes} likes</p>
       </div>
       <div className="flex flex-row space-x-2">
         <button title="Comment on this post">
           <BsChatRightDots />
         </button>
-        <p>102 comments</p>
+        <p>{lcs.comments} comments</p>
       </div>
       <div className="flex flex-row space-x-2">
         <form
           action={handleShare}
           onSubmit={() => {
-            isShared ? setIsShared(false) : setIsShared(true);
+            if (isShared) {
+              setIsShared(false);
+              setLcs((lcs) => ({ ...lcs, shares: lcs.shares - 1 }));
+            } else {
+              setIsShared(true);
+              setLcs((lcs) => ({ ...lcs, shares: lcs.shares + 1 }));
+            }
           }}
         >
           <input name="postId" value={postId} hidden />
@@ -76,7 +102,7 @@ export default function PostFooter({ postId }: { postId: string }) {
             {isShared ? <BsShareFill /> : <BsShare />}
           </button>
         </form>
-        <p>66 shares</p>
+        <p>{lcs.shares} shares</p>
       </div>
     </div>
   );

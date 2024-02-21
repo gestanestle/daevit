@@ -13,11 +13,10 @@ CREATE TABLE IF NOT EXISTS daevit_user (
 
 CREATE TABLE IF NOT EXISTS post (
       post_id bigint not null PRIMARY KEY,
-      category varchar(255) check (category in ('DISCUSSION','HELP','MEMES')),
+      title varchar(255),
       flair varchar(255),
       content text,
       created_at timestamp(6),
-      title varchar(255),
       updated_at timestamp(6),
       author_user_id bigint references daevit_user(user_id) on delete cascade
 );
@@ -36,6 +35,15 @@ CREATE TABLE IF NOT EXISTS post_share (
     primary key (post_id, shared_by)
 );
 
+CREATE TABLE IF NOT EXISTS comment (
+    comment_id bigint not null PRIMARY KEY,
+    post_id bigint references post(post_id) on delete cascade,
+    comment_by bigint references daevit_user(user_id) on delete cascade,
+    content text,
+    created_at timestamp(6),
+    updated_at timestamp(6)
+);
+
 CREATE INDEX user_auth ON daevit_user (auth_id);
 
 ALTER TABLE daevit_user
@@ -44,4 +52,8 @@ ALTER TABLE daevit_user
 
 ALTER TABLE post
     ALTER COLUMN post_id
+        ADD GENERATED ALWAYS AS IDENTITY;
+
+ALTER TABLE comment
+    ALTER COLUMN comment_id
         ADD GENERATED ALWAYS AS IDENTITY;

@@ -17,6 +17,9 @@ export async function getAllPosts(
             username
             profileImageURL
           }
+          likes
+          comments
+          shares
         }
       }
     `,
@@ -112,6 +115,9 @@ export async function getPost(id: number): Promise<Post | undefined> {
             username
             profileImageURL
           }
+          likes
+          comments
+          shares
         }
       }
     `,

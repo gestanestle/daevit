@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikeRepository extends JpaRepository<PostLike, LikeID> {
 
-    @Query("SELECT COUNT(*) FROM PostLike l WHERE l.likeId.post = ?1")
-    int countLikes(String postId);
+    @Query("SELECT COUNT(*) FROM PostLike l WHERE l.likeId.post.postId = ?1")
+    int countLikes(Long postId);
 }

@@ -10,6 +10,9 @@ export default function PostBox({
   content,
   author: { username, profileImageURL },
   createdAt,
+  likes,
+  comments,
+  shares,
 }: Post) {
   return (
     <>
@@ -45,7 +48,12 @@ export default function PostBox({
         <div className="px-4 py-2">
           <p>{content}</p>
         </div>
-        <PostFooter postId={postId as string} />
+        <PostFooter
+          postId={postId as string}
+          likes={likes as number}
+          comments={comments as number}
+          shares={shares as number}
+        />
       </div>
     </>
   );

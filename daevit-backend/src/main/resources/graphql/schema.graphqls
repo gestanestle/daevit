@@ -1,6 +1,6 @@
 type Query {
-  getPostById(postId: Int): Post
-  getPosts(offset: Int, count: Int): [Post]
+  getPostById(postId: Int): PostDTO
+  getPosts(offset: Int, count: Int): [PostDTO]
 }
 
 type Mutation {
@@ -9,19 +9,22 @@ type Mutation {
     flair: String
     content: String
     author: String
-  ): Post
-  updatePost(postId: Int, title: String, flair: String, content: String): Post
+  ): PostDTO
+  updatePost(postId: Int, title: String, flair: String, content: String): PostDTO
   deletePost(postId: Int): Int
 }
 
-type Post {
-  postId: ID!
+type PostDTO {
+  postId: ID
   title: String
   flair: String
   content: String
   createdAt: String
   updatedAt: String
   author: User
+  likes: Int
+  comments: Int
+  shares: Int
 }
 
 type User {

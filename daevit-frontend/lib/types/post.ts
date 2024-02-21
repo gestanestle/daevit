@@ -20,6 +20,9 @@ export const PostSchema = z.object({
   author: AuthorSchema,
   createdAt: ZDate.optional(),
   updatedAt: ZDate.optional(),
+  likes: z.number().optional(),
+  comments: z.number().optional(),
+  shares: z.number().optional(),
 });
 
 export type Post = z.infer<typeof PostSchema>;

@@ -1,5 +1,6 @@
 package com.krimo.daevitserver.controller;
 
+import com.krimo.daevitserver.dto.PostDTO;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
 import com.krimo.daevitserver.service.PostService;
@@ -31,26 +32,26 @@ public class PostHandler {
     }
 
     @QueryMapping
-    public Post getPostById(@Argument Long postId) {
+    public PostDTO getPostById(@Argument Long postId) {
         return postService.getPost(postId);
     }
 
     @QueryMapping
-    public List<Post> getPosts(@Argument Integer offset, @Argument Integer count) {
+    public List<PostDTO> getPosts(@Argument Integer offset, @Argument Integer count) {
         return postService.getAllPosts(offset, count);
     }
 
     @MutationMapping
-    public Post createPost(@Argument String title,
+    public PostDTO createPost(@Argument String title,
                            @Argument String flair,
                            @Argument String content,
                            @Argument String author) {
         Post post = Post.create(title, flair, content, userService.getUser(author));
-        return  postService.savePost(post);
+        return postService.savePost(post);
     }
 
     @MutationMapping
-    public Post updatePost(@Argument Long postId,
+    public PostDTO updatePost(@Argument Long postId,
                            @Argument String title,
                            @Argument String flair,
                            @Argument String content) {
