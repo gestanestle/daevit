@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public interface LikeService {
     void doLike(Long postId, String authId);
     boolean hasLike(Long postId, String authId);
-
 }
 
 @Service
@@ -47,6 +46,7 @@ class LikeServiceImpl implements LikeService {
     public boolean hasLike(Long postId, String authId) {
         return likeRepository.existsById(getId(postId, authId));
     }
+
     private LikeID getId(Long postId, String authId) {
         Post post = postRepository.findById(postId).orElseThrow();
         User user = userRepository.getUserByAuthId(authId).orElseThrow();

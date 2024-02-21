@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 
 const handleForm = async (formData: FormData) => {
   const postId = await submitPost(formData);
-
   redirect(`/posts/${postId}`);
 };
 

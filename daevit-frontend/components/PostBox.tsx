@@ -1,7 +1,7 @@
 import { Post } from "@/lib/types/post";
 import React from "react";
 import { BsBookmarkHeart } from "react-icons/bs";
-import LikeBox from "./LikeBox";
+import PostFooter from "./PostFooter";
 
 export default function PostBox({
   postId,
@@ -45,7 +45,7 @@ export default function PostBox({
         <div className="px-4 py-2">
           <p>{content}</p>
         </div>
-        <LikeBox postId={postId as string} />
+        <PostFooter postId={postId as string} />
       </div>
     </>
   );

@@ -29,6 +29,13 @@ CREATE TABLE IF NOT EXISTS post_like (
     primary key (post_id, liked_by)
 );
 
+CREATE TABLE IF NOT EXISTS post_share (
+    post_id bigint references post(post_id) on delete cascade,
+    shared_by bigint references daevit_user(user_id) on delete cascade,
+    shared_at timestamp(6),
+    primary key (post_id, shared_by)
+);
+
 CREATE INDEX user_auth ON daevit_user (auth_id);
 
 ALTER TABLE daevit_user

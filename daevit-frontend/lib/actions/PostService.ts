@@ -48,7 +48,6 @@ export async function submitPost(
   formData: FormData
 ): Promise<number | undefined> {
   const post: Post = PostSchema.parse({
-    category: formData.get("category"),
     title: formData.get("title"),
     flair: formData.get("flair"),
     content: formData.get("content"),
@@ -62,7 +61,7 @@ export async function submitPost(
       mutation {
         createPost(
           title: "${post.title}" 
-          flair: "${post.flair.toString()}",
+          flair: "${post.flair}",
           content: "${post.content}",
           author: "${post.author.authId}"
           ) {
@@ -143,27 +142,60 @@ export async function doLike(formData: FormData) {
   };
 
   try {
-    const res = await fetch(`/api/v1/likes`, {
+    await fetch(`/api/v1/likes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
-
-    const json = await res.json();
-    console.log(json.message);
   } catch (e) {
     console.log(e);
   }
 }
 
 export async function hasLike(postId: string, authId: string) {
-  console.log(postId);
-  console.log(authId);
   try {
     const res = await fetch(
       `/api/v1/likes?postId=${parseInt(postId)}
+        &authId=${authId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await res.json();
+    return json.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function doShare(formData: FormData) {
+  const body = {
+    postId: parseInt(formData.get("postId") as string),
+    authId: formData.get("authId"),
+  };
+
+  try {
+    await fetch(`/api/v1/shares`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function hasShare(postId: string, authId: string) {
+  try {
+    const res = await fetch(
+      `/api/v1/shares?postId=${parseInt(postId)}
         &authId=${authId}`,
       {
         method: "GET",
