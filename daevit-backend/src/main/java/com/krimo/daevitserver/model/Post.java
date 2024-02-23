@@ -22,6 +22,9 @@ public class Post {
     private LocalDateTime updatedAt;
     @ManyToOne @JoinColumn(name = "author_user_id")
     private User author;
+    @Transient private Integer likes;
+    @Transient private Integer comments;
+    @Transient private Integer shares;
 
     public Post(String title, String flair, String content, LocalDateTime createdAt, LocalDateTime updatedAt, User author) {
         this.title = title;
@@ -128,6 +131,30 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(postId, title, flair, content, createdAt, updatedAt, author);
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+
+    public Integer getShares() {
+        return shares;
+    }
+
+    public void setShares(Integer shares) {
+        this.shares = shares;
     }
 }
 

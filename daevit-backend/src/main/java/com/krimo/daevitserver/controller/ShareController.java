@@ -1,6 +1,6 @@
 package com.krimo.daevitserver.controller;
 
-import com.krimo.daevitserver.dto.LikeDTO;
+import com.krimo.daevitserver.dto.PostUserDTO;
 import com.krimo.daevitserver.dto.ResponseBody;
 import com.krimo.daevitserver.service.ShareService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class ShareController {
     }
 
     @PostMapping
-    ResponseEntity<ResponseBody> doShare(@RequestBody LikeDTO dto) {
+    ResponseEntity<ResponseBody> doShare(@RequestBody PostUserDTO dto) {
         shareService.doShare(dto.postId(), dto.authId());
         return new ResponseEntity<>(new ResponseBody(200, null, "Post shared successfully."), HttpStatus.OK);
     }

@@ -1,6 +1,6 @@
 package com.krimo.daevitserver.controller;
 
-import com.krimo.daevitserver.dto.LikeDTO;
+import com.krimo.daevitserver.dto.PostUserDTO;
 import com.krimo.daevitserver.dto.ResponseBody;
 import com.krimo.daevitserver.service.LikeService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class LikeController {
     }
 
     @PostMapping
-    ResponseEntity<ResponseBody> doLike(@RequestBody LikeDTO dto) {
+    ResponseEntity<ResponseBody> doLike(@RequestBody PostUserDTO dto) {
         likeService.doLike(dto.postId(), dto.authId());
         return new ResponseEntity<>(new ResponseBody(200, null, "Post liked successfully."), HttpStatus.OK);
     }

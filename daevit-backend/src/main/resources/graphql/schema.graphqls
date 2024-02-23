@@ -1,6 +1,8 @@
 type Query {
-  getPostById(postId: Int): PostDTO
-  getPosts(offset: Int, count: Int): [PostDTO]
+  getPostById(postId: Int): Post
+  getPosts(offset: Int, count: Int): [Post]
+  getBaseComments(postId: Int, offset: Int, count: Int): [Comment]
+  getChildComments(parentId: Int, offset: Int, count: Int): [Comment]
 }
 
 type Mutation {
@@ -9,12 +11,20 @@ type Mutation {
     flair: String
     content: String
     author: String
-  ): PostDTO
-  updatePost(postId: Int, title: String, flair: String, content: String): PostDTO
+  ): Post
+  updatePost(postId: Int, title: String, flair: String, content: String): Post
   deletePost(postId: Int): Int
+  createComment(
+    postId: Int
+    parentId: Int
+    content: String
+    author: String
+  ): Comment
+  updateComment(commentId: Int, content: String): Comment
+  deleteComment(commentId: Int): Int
 }
 
-type PostDTO {
+type Post {
   postId: ID
   title: String
   flair: String
@@ -25,6 +35,17 @@ type PostDTO {
   likes: Int
   comments: Int
   shares: Int
+}
+
+type Comment {
+  commentId: ID
+  post: Post
+  parent: Comment
+  author: User
+  content: String
+  createdAt: String
+  updatedAt: String
+  likes: Int
 }
 
 type User {

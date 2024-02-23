@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS post_share (
 CREATE TABLE IF NOT EXISTS comment (
     comment_id bigint not null PRIMARY KEY,
     post_id bigint references post(post_id) on delete cascade,
-    comment_by bigint references daevit_user(user_id) on delete cascade,
+    parent bigint references comment(comment_id),
+    author_user_id bigint references daevit_user(user_id) on delete cascade,
     content text,
     created_at timestamp(6),
     updated_at timestamp(6)

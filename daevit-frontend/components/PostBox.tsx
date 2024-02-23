@@ -2,6 +2,8 @@ import { Post } from "@/lib/types/post";
 import React from "react";
 import { BsBookmarkHeart } from "react-icons/bs";
 import PostFooter from "./PostFooter";
+import Link from "next/link";
+import { SignedIn } from "@clerk/nextjs";
 
 export default function PostBox({
   postId,
@@ -26,7 +28,7 @@ export default function PostBox({
             </div>
           </div>
           <div className="flex-auto">
-            <p>@{username}</p>
+            <p className="font-bold">@{username}</p>
           </div>
           <div className="flex-initial w-50">
             <p>{createdAt?.toDateString()}</p>
@@ -35,7 +37,8 @@ export default function PostBox({
         <div className="px-4 py-2">
           <div className="flex">
             <div className="flex-auto">
-              <p>{title}</p>
+              <Link href={`/posts/${postId}`}>{title}</Link>
+              <br />
               <div className="badge badge-warning">{flair}</div>
             </div>
             <div className="flex-initial w-25">
@@ -48,6 +51,7 @@ export default function PostBox({
         <div className="px-4 py-2">
           <p>{content}</p>
         </div>
+
         <PostFooter
           postId={postId as string}
           likes={likes as number}

@@ -1,15 +1,15 @@
+import ComSec from "@/components/ComSec";
 import PostBox from "@/components/PostBox";
 import { getPost } from "@/lib/actions/PostService";
 import { Post } from "@/lib/types/post";
-import { SignedIn } from "@clerk/nextjs";
 
 export default async function page({ params }: { params: { page: number } }) {
   const post: Post | undefined = await getPost(params.page);
   return (
     <>
       <div className="grid justify-items-center grid-cols-1 gap-4 py-4">
-        <SignedIn>
-          {post != undefined && (
+        {post != undefined && (
+          <>
             <PostBox
               postId={post.postId}
               title={post.title}
@@ -25,8 +25,9 @@ export default async function page({ params }: { params: { page: number } }) {
               comments={post.comments}
               shares={post.shares}
             />
-          )}
-        </SignedIn>
+            <ComSec postId={parseInt(post.postId!)} />
+          </>
+        )}
       </div>
     </>
   );

@@ -1,13 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/1",
-        permanent: true,
-      },
-    ];
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/1",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
+  env: {
+    SERVER_HOST: process.env.SERVER_HOST,
   },
   async headers() {
     return [
@@ -35,10 +38,6 @@ const nextConfig = {
         source: "/api/:path*",
         destination: `${process.env.SERVER_HOST}/api/:path*`,
       },
-      // {
-      //   source: "/undefined/api/:path*",
-      //   destination: `${process.env.SERVER_HOST}/api/:path*`,
-      // },
     ];
   },
   plugins: [require("daisyui")],

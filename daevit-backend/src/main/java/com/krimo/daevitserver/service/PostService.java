@@ -1,6 +1,5 @@
 package com.krimo.daevitserver.service;
 
-import com.krimo.daevitserver.dto.PostDTO;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.repository.LikeRepository;
 import com.krimo.daevitserver.repository.PostRepository;
@@ -16,10 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface PostService {
-    PostDTO savePost(Post post);
-    PostDTO getPost(Long postId);
+    Post savePost(Post post);
+    Post getPost(Long postId);
     void deletePost(Long postId);
-    List<PostDTO> getAllPosts(int offset, int count);
+    List<Post> getAllPosts(int offset, int count);
 
 }
 
@@ -40,31 +39,36 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO savePost(Post post) {
+    public Post savePost(Post post) {
         logger.info("Saving post: " + post);
-        return PostDTO.format(postRepository.save(post), 0, 0, 0);
+        return postRepository.save(post);
     }
 
     @Override
-    public PostDTO getPost(Long id) {
+    public Post getPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow();
         int likes = likeRepository.countLikes(id);
         int comments = 0;
         int shares = shareRepository.countShares(id);
 
-        return PostDTO.format(post, likes, comments, shares);
+        post.setLikes(likes);
+        post.setComments(comments);
+        post.setShares(shares);
+        return post;
     }
 
     @Override
-    public List<PostDTO> getAllPosts(int offset, int count) {
+    public List<Post> getAllPosts(int offset, int count) {
         Pageable pageable = PageRequest.of(offset - 1, count);
         return postRepository.findAll(pageable)
-                .stream().map((post)-> {
+                .stream().peek((post)-> {
                     int likes = likeRepository.countLikes(post.getPostId());
                     int comments = 0;
                     int shares = shareRepository.countShares(post.getPostId());
-            return PostDTO.format(post, likes, comments, shares);
-        }).toList();
+                    post.setLikes(likes);
+                    post.setComments(comments);
+                    post.setShares(shares);
+                }).toList();
     }
 
     @Override

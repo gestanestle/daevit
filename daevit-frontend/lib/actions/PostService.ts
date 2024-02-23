@@ -1,52 +1,5 @@
 import { Post, PostSchema } from "@/lib/types/post";
 
-export async function getAllPosts(
-  pageNo: number,
-  pageSize: number
-): Promise<Post[] | undefined> {
-  const query = {
-    query: `
-      query {
-        getPosts(offset: ${pageNo}, count: 10) {
-          postId
-          title
-          flair
-          content
-          author {
-            authId
-            username
-            profileImageURL
-          }
-          likes
-          comments
-          shares
-        }
-      }
-    `,
-  };
-
-  try {
-    const res = await fetch(process.env.SERVER_HOST + `/api/v1/graphql`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(query),
-      next: { revalidate: 3600 },
-    });
-
-    const json = await res.json();
-
-    const posts: Post[] = json.data.getPosts.map((content: any) =>
-      PostSchema.parse(content)
-    );
-
-    return posts;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export async function submitPost(
   formData: FormData
 ): Promise<number | undefined> {
@@ -69,16 +22,6 @@ export async function submitPost(
           author: "${post.author.authId}"
           ) {
           postId
-          title
-          flair
-          content
-          author {
-            authId
-            username
-            profileImageURL
-          }
-          createdAt
-          updatedAt
         }
       }
     `,
@@ -101,6 +44,41 @@ export async function submitPost(
   }
 }
 
+export async function getAllPosts(offset: number) {
+  const query = {
+    query: `
+      query {
+        getPosts(offset: ${offset}, count: 10) {
+          postId
+          title
+          flair
+          content
+          author {
+            authId
+            username
+            profileImageURL
+          }
+          createdAt
+          updatedAt
+          likes
+          comments
+          shares
+        }
+      }
+    `,
+  };
+
+  const res = await fetch(`/api/v1/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(query),
+    next: { revalidate: 3600 },
+  });
+  return res.json();
+}
+
 export async function getPost(id: number): Promise<Post | undefined> {
   const query = {
     query: `
@@ -115,6 +93,8 @@ export async function getPost(id: number): Promise<Post | undefined> {
             username
             profileImageURL
           }
+          createdAt
+          updatedAt
           likes
           comments
           shares
