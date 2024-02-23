@@ -4,6 +4,7 @@ import com.krimo.daevitserver.model.Comment;
 import com.krimo.daevitserver.repository.CommentRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,5 +65,5 @@ class CommentServiceImpl implements CommentService {
                      .toList();
     }
 
-    Pageable pg(int offset, int count) { return PageRequest.of(offset - 1, count); }
+    Pageable pg(int offset, int count) { return PageRequest.of(offset - 1, count, Sort.by("createdAt").descending()); }
 }

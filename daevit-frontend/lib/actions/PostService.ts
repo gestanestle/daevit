@@ -122,18 +122,27 @@ export async function getPost(id: number): Promise<Post | undefined> {
 }
 
 export async function doLike(formData: FormData) {
-  const body = {
-    postId: parseInt(formData.get("postId") as string),
-    authId: formData.get("authId"),
+  const postId = parseInt(formData.get("postId") as string);
+  const authId = formData.get("authId");
+
+  const mutation = {
+    query: `
+      mutation {
+        doLike(
+          postId: ${postId}, 
+          authId: "${authId}"
+        )
+      }
+    `,
   };
 
   try {
-    await fetch(`/api/v1/likes`, {
+    await fetch(`/api/v1/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(mutation),
     });
   } catch (e) {
     console.log(e);
@@ -141,37 +150,56 @@ export async function doLike(formData: FormData) {
 }
 
 export async function hasLike(postId: string, authId: string) {
-  try {
-    const res = await fetch(
-      `/api/v1/likes?postId=${parseInt(postId)}
-        &authId=${authId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const query = {
+    query: `
+      query {
+        hasLike(
+          postId: ${postId}, 
+          authId: "${authId}"
+          ) 
       }
-    );
+      
+    `,
+  };
+
+  try {
+    const res = await fetch(`/api/v1/graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
     const json = await res.json();
-    return json.data;
+    return json.data.hasLike;
   } catch (e) {
     console.log(e);
   }
 }
 
 export async function doShare(formData: FormData) {
-  const body = {
-    postId: parseInt(formData.get("postId") as string),
-    authId: formData.get("authId"),
+  const postId = parseInt(formData.get("postId") as string);
+  const authId = formData.get("authId");
+
+  const mutation = {
+    query: `
+      mutation {
+        doShare(
+          postId: ${postId}, 
+          authId: "${authId}"
+        )
+      }
+      
+    `,
   };
 
   try {
-    await fetch(`/api/v1/shares`, {
+    await fetch(`/api/v1/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(mutation),
     });
   } catch (e) {
     console.log(e);
@@ -179,19 +207,26 @@ export async function doShare(formData: FormData) {
 }
 
 export async function hasShare(postId: string, authId: string) {
-  try {
-    const res = await fetch(
-      `/api/v1/shares?postId=${parseInt(postId)}
-        &authId=${authId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const query = {
+    query: `
+      query {
+        hasShare(
+          postId: ${postId}, 
+          authId: "${authId}"
+          ) 
       }
-    );
+    `,
+  };
+  try {
+    const res = await fetch(`/api/v1/graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
     const json = await res.json();
-    return json.data;
+    return json.data.hasShare;
   } catch (e) {
     console.log(e);
   }

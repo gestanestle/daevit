@@ -3,6 +3,9 @@ type Query {
   getPosts(offset: Int, count: Int): [Post]
   getBaseComments(postId: Int, offset: Int, count: Int): [Comment]
   getChildComments(parentId: Int, offset: Int, count: Int): [Comment]
+
+  hasLike(postId: Int authId: String): Boolean
+  hasShare(postId: Int, authId: String): Boolean
 }
 
 type Mutation {
@@ -14,6 +17,7 @@ type Mutation {
   ): Post
   updatePost(postId: Int, title: String, flair: String, content: String): Post
   deletePost(postId: Int): Int
+
   createComment(
     postId: Int
     parentId: Int
@@ -22,6 +26,9 @@ type Mutation {
   ): Comment
   updateComment(commentId: Int, content: String): Comment
   deleteComment(commentId: Int): Int
+
+  doLike(postId: Int, authId: String): Int
+  doShare(postId: Int, authId: String): Int
 }
 
 type Post {

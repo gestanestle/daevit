@@ -4,7 +4,9 @@ import com.krimo.daevitserver.model.Comment;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
 import com.krimo.daevitserver.service.CommentService;
+import com.krimo.daevitserver.service.LikeService;
 import com.krimo.daevitserver.service.PostService;
+import com.krimo.daevitserver.service.ShareService;
 import com.krimo.daevitserver.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -18,15 +20,19 @@ import java.util.Objects;
 
 @Controller
 public class PostGraphQLHandler {
-
-    private final PostService postService;
-    private final CommentService commentService;
+    
     private final UserService userService;
+    private final PostService postService;
+    private final LikeService likeService;
+    private final CommentService commentService;
+    private final ShareService shareService;
 
-    public PostGraphQLHandler(PostService postService, CommentService commentService, UserService userService) {
-        this.postService = postService;
-        this.commentService = commentService;
+    public PostGraphQLHandler(UserService userService, PostService postService, LikeService likeService, CommentService commentService, ShareService shareService) {
         this.userService = userService;
+        this.postService = postService;
+        this.likeService = likeService;
+        this.commentService = commentService;
+        this.shareService = shareService;
     }
 
     @SchemaMapping
@@ -107,4 +113,28 @@ public class PostGraphQLHandler {
         commentService.deleteComment(commentId);
         return commentId;
     }
+
+    
+    @QueryMapping
+    public Boolean hasLike(@Argument Long postId, @Argument String authId) {
+        return likeService.hasLike(postId, authId);
+    }
+
+    @MutationMapping
+    public Long doLike(@Argument Long postId, @Argument String authId) {
+        likeService.doLike(postId, authId);
+        return postId;
+    }
+
+    @QueryMapping
+    public Boolean hasShare(@Argument Long postId, @Argument String authId) {
+        return shareService.hasShare(postId, authId);
+    }
+
+    @MutationMapping
+    public Long doShare(@Argument Long postId, @Argument String authId) {
+        shareService.doShare(postId, authId);
+        return postId;
+    }
+
 }

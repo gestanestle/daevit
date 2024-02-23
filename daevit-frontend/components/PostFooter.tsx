@@ -3,7 +3,7 @@
 import { doComment } from "@/lib/actions/CommentService";
 import { doLike, doShare, hasLike, hasShare } from "@/lib/actions/PostService";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   BsHeartFill,
   BsHeart,
@@ -11,6 +11,7 @@ import {
   BsShare,
   BsShareFill,
   BsSend,
+  BsChatRightDotsFill,
 } from "react-icons/bs";
 
 type LCS = {
@@ -26,6 +27,7 @@ const handleLike = async (formData: FormData) => {
 
 const handleComment = async (formData: FormData) => {
   await doComment(formData);
+  window.location.reload();
 };
 
 const handleShare = async (formData: FormData) => {
@@ -103,7 +105,7 @@ export default function PostFooter({ postId, likes, comments, shares }: LCS) {
                 : setIsComsecVisible(true);
             }}
           >
-            <BsChatRightDots />
+            {isComsecVisible ? <BsChatRightDotsFill /> : <BsChatRightDots />}
           </button>
           <p>{lcs.comments} comments</p>
         </div>
