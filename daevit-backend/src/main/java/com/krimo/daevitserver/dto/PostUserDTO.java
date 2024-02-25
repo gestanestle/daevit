@@ -1,6 +1,6 @@
 package com.krimo.daevitserver.dto;
 
-public record LikeDTO(
+public record PostUserDTO(
         Long postId,
         String authId
 ) {

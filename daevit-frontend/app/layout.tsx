@@ -8,7 +8,7 @@ import { dark, neobrutalism } from "@clerk/themes";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Daevit Forum App",
-  description: "A forum application made by daedalus",
+  description: "A forum application.",
 };
 
 export default function RootLayout({

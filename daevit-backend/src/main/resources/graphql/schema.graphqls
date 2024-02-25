@@ -1,6 +1,17 @@
 type Query {
   getPostById(postId: Int): Post
   getPosts(offset: Int, count: Int): [Post]
+  getBaseComments(postId: Int, offset: Int, count: Int): [Comment]
+  getChildComments(parentId: Int, offset: Int, count: Int): [Comment]
+
+  hasLike(postId: Int authId: String): Boolean
+  hasShare(postId: Int, authId: String): Boolean
+
+  getUserBy(username: String): User
+  getPostsBy(username: String, postOffset: Int, postCount: Int): [Post]
+  getLikedBy(username: String, likeOffset: Int, likeCount: Int): [Post]
+  getCommentsBy(username: String, commentOffset: Int, commentCount: Int): [Comment]
+  getSharedBy(username: String, shareOffset: Int, shareCount: Int): [Post]
 }
 
 type Mutation {
@@ -12,16 +23,42 @@ type Mutation {
   ): Post
   updatePost(postId: Int, title: String, flair: String, content: String): Post
   deletePost(postId: Int): Int
+
+  createComment(
+    postId: Int
+    parentId: Int
+    content: String
+    author: String
+  ): Comment
+  updateComment(commentId: Int, content: String): Comment
+  deleteComment(commentId: Int): Int
+
+  doLike(postId: Int, authId: String): Int
+  doShare(postId: Int, authId: String): Int
 }
 
 type Post {
-  postId: ID!
+  postId: ID
   title: String
   flair: String
   content: String
   createdAt: String
   updatedAt: String
   author: User
+  likes: Int
+  comments: Int
+  shares: Int
+}
+
+type Comment {
+  commentId: ID
+  post: Post
+  parent: Comment
+  author: User
+  content: String
+  createdAt: String
+  updatedAt: String
+  likes: Int
 }
 
 type User {

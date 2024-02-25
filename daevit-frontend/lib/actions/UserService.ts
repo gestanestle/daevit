@@ -1,14 +1,37 @@
 import { User, UserSchema } from "../types/user";
 
-export async function getUser(authId: string): Promise<User | undefined> {
+export async function getUserBy(username: string): Promise<User | undefined> {
+  const query = {
+    query: `
+      query {
+        getUserBy(username: "${username}") {
+          authId
+          username
+          email
+          birthdate
+          lastName
+          firstName
+          profileImageURL
+          createdAt 
+          updatedAt
+        }
+      }
+    `,
+  };
+  
   try {
-    const res = await fetch(`/api/v1/user/${authId}`, { method: "GET" });
-    const json = await res.json();
+    const res = await fetch(process.env.SERVER_HOST + `api/v1/graphql`, {
+      method: "POST",
+      next: { revalidate: 3600 },
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
 
-    const user: User = UserSchema.parse(json.data);
-    return user;
+    const json = await res.json();
+    return UserSchema.parse(json.data.getUserBy);
   } catch (e) {
     console.log(e);
-    throw new Error();
   }
 }

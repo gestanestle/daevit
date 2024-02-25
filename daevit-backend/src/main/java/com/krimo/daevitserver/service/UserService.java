@@ -1,30 +1,36 @@
 package com.krimo.daevitserver.service;
 
 import com.krimo.daevitserver.dto.user.payload.UserData;
+import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
+import com.krimo.daevitserver.repository.PostRepository;
 import com.krimo.daevitserver.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
+import lombok.RequiredArgsConstructor;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 public interface UserService {
     void createUser(UserData userData);
     User getUser(String authId);
     void deleteUser(String id);
+    User getByUsername(String username);
 }
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final LikeService likeService;
+    private final CommentService commentService;
+    private final ShareService shareService;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public void createUser(UserData userData) {
@@ -44,15 +50,18 @@ class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String authId) {
-        User user = userRepository.getUserByAuthId(authId).orElseThrow();
-        return user;
-//        return new UserDTO(user.getAuthId(), user.getUsername(), user.getLastName(), user.getFirstName(), user.getProfileImageURL());
+        return userRepository.getUserByAuthId(authId).orElseThrow();
     }
 
 
     @Override
     public void deleteUser(String id) {
         userRepository.deleteUserByAuthId(id);
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userRepository.getByUsername(username).orElseThrow();
     }
 
 }

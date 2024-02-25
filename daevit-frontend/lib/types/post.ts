@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { AuthorSchema } from "./user";
-
-const ZDate = z.string().transform((str: string) => new Date(str));
+import { ZDate } from "./date";
 
 export const PostSchema = z.object({
   postId: z.string().optional(),
@@ -20,6 +19,9 @@ export const PostSchema = z.object({
   author: AuthorSchema,
   createdAt: ZDate.optional(),
   updatedAt: ZDate.optional(),
+  likes: z.number().optional(),
+  comments: z.number().optional(),
+  shares: z.number().optional(),
 });
 
 export type Post = z.infer<typeof PostSchema>;
