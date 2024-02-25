@@ -11,4 +11,7 @@ public interface ShareRepository extends JpaRepository<PostShare, ShareID> {
 
     @Query("SELECT COUNT(*) FROM PostShare s WHERE s.shareId.post.postId = ?1")
     int countShares(Long postId);
+
+    @Query("SELECT s.shareId.post FROM PostShare s WHERE s.shareId.sharedBy.username = ?1")
+    Page<Post> getSharedBy(String username, Pageable pageable);
 }

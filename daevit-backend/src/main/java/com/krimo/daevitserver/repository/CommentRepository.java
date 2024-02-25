@@ -20,6 +20,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("SELECT COUNT(*) FROM Comment c WHERE c.post.postId = ?1")
     int countComments(Long postId);
+
     @Query("SELECT COUNT(*) FROM Comment c WHERE c.commentId = ?1")
     int countLikes(Long id);
+
+    @Query("SELECT c FROM Comment c WHERE c.author.username = ?1")
+    Page<Comment> getCommentsBy(String username, Pageable pageable);
 }

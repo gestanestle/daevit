@@ -3,6 +3,7 @@ package com.krimo.daevitserver.controller;
 import com.krimo.daevitserver.model.Comment;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
+import com.krimo.daevitserver.model.UserT;
 import com.krimo.daevitserver.service.CommentService;
 import com.krimo.daevitserver.service.LikeService;
 import com.krimo.daevitserver.service.PostService;
@@ -13,12 +14,13 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-
+import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class PostGraphQLHandler {
     
     private final UserService userService;
@@ -27,13 +29,6 @@ public class PostGraphQLHandler {
     private final CommentService commentService;
     private final ShareService shareService;
 
-    public PostGraphQLHandler(UserService userService, PostService postService, LikeService likeService, CommentService commentService, ShareService shareService) {
-        this.userService = userService;
-        this.postService = postService;
-        this.likeService = likeService;
-        this.commentService = commentService;
-        this.shareService = shareService;
-    }
 
     @SchemaMapping
     public User author(Post post) {
@@ -136,5 +131,19 @@ public class PostGraphQLHandler {
         shareService.doShare(postId, authId);
         return postId;
     }
+
+    @QueryMapping
+    public UserT getUser(@Argument String username, 
+            @Argument String postOffset, @Argument postCount, 
+            @Argument String likeOffset, @Argument likeCount, 
+            @Argument String commentOffset, @Argument commentCount, 
+            @Argument String shareCount, @Argument shareCount) {
+
+        User user = userService.getByUsername(username);
+        List<Post> posts = postService.getByUsername(username);
+        return new UserT(user, )
+    }
+
+
 
 }

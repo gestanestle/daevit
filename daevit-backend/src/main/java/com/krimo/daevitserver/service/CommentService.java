@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 public interface CommentService {
@@ -20,13 +20,10 @@ public interface CommentService {
 }
 
 @Service
+@RequiredArgsConstructor
 class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-
-    public CommentServiceImpl(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
 
     @Override
     public Comment getComment(Long id) {

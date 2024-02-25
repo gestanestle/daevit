@@ -7,6 +7,8 @@ import com.krimo.daevitserver.repository.ShareRepository;
 import com.krimo.daevitserver.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
 
 public interface ShareService {
 
@@ -15,17 +17,13 @@ public interface ShareService {
 }
 
 @Service
+@RequiredArgsConstructor
 class ShareServiceImpl implements ShareService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ShareRepository shareRepository;
 
-    public ShareServiceImpl(PostRepository postRepository, UserRepository userRepository, ShareRepository shareRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
-        this.shareRepository = shareRepository;
-    }
 
     @Override
     public void doShare(Long postId, String authId) {

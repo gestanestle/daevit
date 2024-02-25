@@ -47,8 +47,8 @@ export default function Write() {
       </div>
 
       <dialog id="write_post_modal" className="modal">
-        <div className="modal-box w-11/12 sm:w-3/4 lg:3/4 max-w-5xl rounded-lg overflow-hidden">
-          <p className="font-bold text-center text-2xl pb-4">Write post</p>
+        <div className="modal-box w-1/2 sm:w-1/2 lg:1/2 max-w-5xl rounded-lg  overflow-hidden">
+          <p className="font-bold text-center text-xl pb-4">Write post</p>
 
           <form action={handleForm}>
             <div className="flex w-full items-center space-x-4 h-14">
@@ -82,14 +82,7 @@ export default function Write() {
                 required
               />
             </div>
-            <div className="flex space-x-4 items-center">
-              <label>Tags: </label>
-              <input
-                placeholder="#java, #typescript, #backend, #postgres"
-                className="apearance-none bg-transparent border border-white rounded-md w-full p-2"
-                disabled
-              />
-            </div>
+            
             <div className="flex mt-8 justify-end text-center">
               <input
                 type="submit"

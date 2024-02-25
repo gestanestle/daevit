@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -26,21 +28,14 @@ public interface PostService {
 
 @Service
 @Transactional
+@RequiredArgsConstructor
+@Slf4j
 class PostServiceImpl implements PostService {
-
-    private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
     private final ShareRepository shareRepository;
-
-    public PostServiceImpl(PostRepository postRepository, LikeRepository likeRepository, CommentRepository commentRepository, ShareRepository shareRepository) {
-        this.postRepository = postRepository;
-        this.likeRepository = likeRepository;
-        this.commentRepository = commentRepository;
-        this.shareRepository = shareRepository;
-    }
 
     @Override
     public Post savePost(Post post) {
