@@ -3,7 +3,6 @@ package com.krimo.daevitserver.service;
 import com.krimo.daevitserver.dto.user.payload.UserData;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
-import com.krimo.daevitserver.model.UserT;
 import com.krimo.daevitserver.repository.PostRepository;
 import com.krimo.daevitserver.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -51,8 +50,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String authId) {
-        User user = userRepository.getUserByAuthId(authId).orElseThrow();
-        return user;
+        return userRepository.getUserByAuthId(authId).orElseThrow();
     }
 
 
@@ -63,15 +61,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public User getByUsername(String username) {
-        User user;
-        userRepository.getByUsername(username).map((i)-> {
-            user = new UserT(i.getUserId(), i.getAuthId(), i.getUsername(),
-            i.getEmail(), i.getBirthdate(), i.getLastName(), i.getFirstName(), 
-            i.getProfileImageURL(), i.getCreatedAt(), i.getUpdatedAt());
-         });
-
-        List<Post> posts = postRepository.getPostsBy(username, null)
-        
-    };
+        return userRepository.getByUsername(username).orElseThrow();
+    }
 
 }

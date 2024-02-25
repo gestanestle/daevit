@@ -2,9 +2,8 @@ package com.krimo.daevitserver.service;
 
 import com.krimo.daevitserver.model.Comment;
 import com.krimo.daevitserver.repository.CommentRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.krimo.daevitserver.utils.Pg;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
@@ -16,7 +15,7 @@ public interface CommentService {
     Comment getComment(Long id);
     List<Comment> getBaseComments(Long postId, int offset, int count);
     List<Comment> getChildComments(Long parentId, int offset, int count);
-
+    List<Comment> getCommentsBy(String username, int offset, int count);
 }
 
 @Service
@@ -42,25 +41,26 @@ class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getBaseComments(Long postId, int offset, int count) {
-        return commentRepository.getByPostID(postId, pg(offset, count))
-                    .stream()
-                    .peek((com)-> { 
-                        int likes = commentRepository.countLikes(com.getCommentId());
-                        com.setLikes(likes);
-                     })
-                    .toList();
+        return commentRepository.getByPostID(postId, Pg.find(offset, count))
+                    .stream().peek((com)-> setLikes(com)).toList();
     }
 
     @Override
     public List<Comment> getChildComments(Long parentId, int offset, int count) {
-        return commentRepository.getByParentComment(parentId, pg(offset, count))
-                    .stream()
-                    .peek((com)-> { 
-                        int likes = commentRepository.countLikes(com.getCommentId());
-                        com.setLikes(likes);
-                     })
-                     .toList();
+        return commentRepository.getByParentComment(parentId, Pg.find(offset, count))
+                    .stream().peek((com)-> setLikes(com)).toList();
     }
 
-    Pageable pg(int offset, int count) { return PageRequest.of(offset - 1, count, Sort.by("createdAt").descending()); }
+    @Override
+    public List<Comment> getCommentsBy(String username, int offset, int count) {
+        return commentRepository.getCommentsBy(username, Pg.find(offset, count))
+                    .stream().peek((com)-> setLikes(com)).toList();
+    }
+
+    private Comment setLikes(Comment com) { 
+        int likes = commentRepository.countLikes(com.getCommentId());
+        com.setLikes(likes);
+        return com;
+     }
+
 }

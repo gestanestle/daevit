@@ -6,6 +6,12 @@ type Query {
 
   hasLike(postId: Int authId: String): Boolean
   hasShare(postId: Int, authId: String): Boolean
+
+  getUserBy(username: String): User
+  getPostsBy(username: String, postOffset: Int, postCount: Int): [Post]
+  getLikedBy(username: String, likeOffset: Int, likeCount: Int): [Post]
+  getCommentsBy(username: String, commentOffset: Int, commentCount: Int): [Comment]
+  getSharedBy(username: String, shareOffset: Int, shareCount: Int): [Post]
 }
 
 type Mutation {

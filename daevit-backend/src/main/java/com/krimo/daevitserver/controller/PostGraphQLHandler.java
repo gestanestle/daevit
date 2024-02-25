@@ -3,7 +3,6 @@ package com.krimo.daevitserver.controller;
 import com.krimo.daevitserver.model.Comment;
 import com.krimo.daevitserver.model.Post;
 import com.krimo.daevitserver.model.User;
-import com.krimo.daevitserver.model.UserT;
 import com.krimo.daevitserver.service.CommentService;
 import com.krimo.daevitserver.service.LikeService;
 import com.krimo.daevitserver.service.PostService;
@@ -133,17 +132,26 @@ public class PostGraphQLHandler {
     }
 
     @QueryMapping
-    public UserT getUser(@Argument String username, 
-            @Argument String postOffset, @Argument postCount, 
-            @Argument String likeOffset, @Argument likeCount, 
-            @Argument String commentOffset, @Argument commentCount, 
-            @Argument String shareCount, @Argument shareCount) {
+    public User getUserBy(@Argument String username) { return userService.getByUsername(username); }
 
-        User user = userService.getByUsername(username);
-        List<Post> posts = postService.getByUsername(username);
-        return new UserT(user, )
+    @QueryMapping
+    public List<Post> getPostsBy(@Argument String username,  @Argument int postOffset, @Argument int postCount) {
+        return postService.getPostsBy(username, postOffset, postCount);
     }
 
+    @QueryMapping
+    public List<Post> getLikedBy(@Argument String username, @Argument int likeOffset, @Argument int likeCount) {
+        return postService.getLikedBy(username, likeOffset, likeCount);
+    }
 
+    @QueryMapping
+    public List<Comment> getCommentsBy(@Argument String username, @Argument int commentOffset, @Argument int commentCount) {
+        return commentService.getCommentsBy(username, commentOffset, commentCount);
+    }
 
+    @QueryMapping
+    public List<Post> getSharedBy(@Argument String username, @Argument int shareOffset, @Argument int shareCount) {
+        return postService.getSharedBy(username, shareOffset, shareCount);
+
+    }
 }

@@ -5,13 +5,14 @@ import com.krimo.daevitserver.repository.CommentRepository;
 import com.krimo.daevitserver.repository.LikeRepository;
 import com.krimo.daevitserver.repository.PostRepository;
 import com.krimo.daevitserver.repository.ShareRepository;
+import com.krimo.daevitserver.utils.Pg;
+
+import org.springframework.data.domain.Pageable;
 import jakarta.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,9 @@ public interface PostService {
     Post getPost(Long postId);
     void deletePost(Long postId);
     List<Post> getAllPosts(int offset, int count);
-
+    List<Post> getPostsBy(String username, int offset, int count);
+    List<Post> getLikedBy(String username, int offset, int count);
+    List<Post> getSharedBy(String username, int offset, int count);
 }
 
 @Service
@@ -39,7 +42,7 @@ class PostServiceImpl implements PostService {
 
     @Override
     public Post savePost(Post post) {
-        logger.info("Saving post: " + post);
+        log.info("Saving post: " + post);
         return postRepository.save(post);
     }
 
@@ -57,24 +60,47 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPosts(int offset, int count) {
-        Pageable pageable = PageRequest.of(offset - 1, count, Sort.by("createdAt").descending());
-        return postRepository.findAll(pageable)
-                .stream().peek((post)-> {
-                    int likes = likeRepository.countLikes(post.getPostId());
-                    int comments = commentRepository.countComments(post.getPostId());
-                    int shares = shareRepository.countShares(post.getPostId());
-                    post.setLikes(likes);
-                    post.setComments(comments);
-                    post.setShares(shares);
-                }).toList();
+    public void deletePost(Long postId) {
+        log.info("Deleting post with ID: " + postId);
+        postRepository.deleteById(postId);
     }
 
     @Override
-    public void deletePost(Long postId) {
-        logger.info("Deleting post with ID: " + postId);
-        postRepository.deleteById(postId);
+    public List<Post> getAllPosts(int offset, int count) {
+        return postRepository.findAll(Pg.find(offset, count))
+                .stream().peek((post)-> setLCS(post)).toList();
     }
+
+    @Override
+    public List<Post> getPostsBy(String username, int offset, int count) {
+        return postRepository.getPostsBy(username, Pg.find(offset, count))
+                .stream().peek((post)-> setLCS(post)).toList();
+
+    }
+
+    @Override
+    public List<Post> getLikedBy(String username, int offset, int count) {
+        return likeRepository.getLikedBy(username, Pg.find(offset, count))
+                .stream().peek((post)-> setLCS(post)).toList();
+    }
+
+
+    @Override
+    public List<Post> getSharedBy(String username, int offset, int count) {
+         return shareRepository.getSharedBy(username, Pg.find(offset, count))
+                .stream().peek((post)-> setLCS(post)).toList();
+    }
+
+    private Post setLCS(Post post) {
+        int likes = likeRepository.countLikes(post.getPostId());
+        int comments = commentRepository.countComments(post.getPostId());
+        int shares = shareRepository.countShares(post.getPostId());
+        post.setLikes(likes);
+        post.setComments(comments);
+        post.setShares(shares);
+        return post;
+    }
+
 }
 
 
