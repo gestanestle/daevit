@@ -74,7 +74,6 @@ export async function getAllPosts(offset: number) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(query),
-    next: { revalidate: 3600 },
   });
   return res.json();
 }

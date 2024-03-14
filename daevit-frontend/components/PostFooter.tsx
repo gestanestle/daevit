@@ -157,6 +157,7 @@ export default function PostFooter({ postId, likes, comments, shares }: LCS) {
                     type="text"
                     className="grow bg-base-100"
                     placeholder="Post a comment..."
+                    required
                   />
                   <input name="postId" value={postId} hidden />
                   <input name="author" value={authId} hidden />

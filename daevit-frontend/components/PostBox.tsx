@@ -28,7 +28,9 @@ export default function PostBox({
             </div>
           </div>
           <div className="flex-auto">
-            <p className="font-bold">@{username}</p>
+            <a className="font-bold" href={username!}>
+              @{username}
+            </a>
           </div>
           <div className="flex-initial w-50">
             <p>{createdAt?.toDateString()}</p>
