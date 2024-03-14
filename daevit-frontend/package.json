@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^4.27.2",
     "@clerk/themes": "^1.7.9",
     "@tanstack/react-query": "^5.20.2",
+    "clsx": "^2.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "graphql": "^16.8.1",
@@ -21,6 +22,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
+    "tailwind-merge": "^2.2.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
