@@ -24,7 +24,11 @@ export default function Write() {
     <>
       <div
         className="h-fit w-full sm:w-3/4 lg:w-1/2 bg-base-300 rounded-lg"
-        onClick={() => document.getElementById("write_post_modal")!.showModal()}
+        onClick={() =>
+          (
+            document.getElementById("write_post_modal") as HTMLDialogElement
+          ).showModal()
+        }
       >
         <div className="px-4 py-4 flex space-x-2">
           <div className="flex-initial">
@@ -82,7 +86,7 @@ export default function Write() {
                 required
               />
             </div>
-            
+
             <div className="flex mt-8 justify-end text-center">
               <input
                 type="submit"
