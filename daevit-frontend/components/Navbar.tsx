@@ -34,7 +34,7 @@ export default function Navbar() {
                 <a>Homepage</a>
               </li>
               <li>
-                <a>Portfolio</a>
+                <a>My Timeline</a>
               </li>
               <li>
                 <a>About</a>

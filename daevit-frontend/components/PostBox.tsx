@@ -18,7 +18,7 @@ export default function PostBox({
 }: Post) {
   return (
     <>
-      <div className="h-fit w-full sm:w-3/4 lg:w-1/2 bg-base-300 rounded-lg">
+      <div className="h-fit w-full sm:w-3/4 lg:w-1/2 rounded-lg bg-base-300">
         <div className="px-4 pt-4 flex space-x-2 text-sm">
           <div className="flex-initial">
             <div className="avatar">

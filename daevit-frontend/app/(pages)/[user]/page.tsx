@@ -7,11 +7,11 @@ import { SignedIn } from "@clerk/nextjs";
 
 export default async function User({ params }: { params: { user: string } }) {
   const user = await getUserBy(params.user);
-
+  // bg-gradient-to-r from-pink-500 to-rose-500
   return (
     <>
       <section className="flex justify-center my-4 text-black">
-        <div className="card w-1/2 bg-gradient-to-r from-pink-500 to-rose-500">
+        <div className="card w-1/2 bg-gradient-to-tr from-amber-500 to-indigo-600">
           <div className="flex justify-center items-center h-60 w-full">
             <div className="avatar">
               <div className="w-48 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -42,7 +42,7 @@ export default async function User({ params }: { params: { user: string } }) {
 
       <section>
         <div className="grid justify-items-center grid-cols-1 gap-4 py-4">
-          <div className="w-1/2 border-y-2 py-2 border-pink-400 bg-none text-center">
+          <div className="w-1/2 border-y-2 py-2 border-blue-400 bg-none text-center">
             <p className="font-bold text-lg">Posts</p>
           </div>
           <UserPosts username={user!.username} />

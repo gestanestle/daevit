@@ -51,31 +51,19 @@ export default function Write() {
       </div>
 
       <dialog id="write_post_modal" className="modal">
-        <div className="modal-box w-1/2 sm:w-1/2 lg:1/2 max-w-5xl rounded-lg  overflow-hidden">
+        <div className="modal-box w-1/2 sm:w-1/2 lg:1/2 max-w-5xl rounded-lg backdrop-blur-sm bg-base-300 glass overflow-hidden">
           <p className="font-bold text-center text-xl pb-4">Write post</p>
 
           <form action={handleForm}>
             <div className="flex w-full items-center space-x-4 h-14">
-              <div className="flex-1 basis-3/4 h-full">
-                <input
-                  name="title"
-                  className="input input-bordered input-secondary h-full w-full px-4"
-                  placeholder="Title"
-                  required
-                />
-              </div>
-              <div className="flex-1 basis-1/4 h-full">
-                <select
-                  className="select select-secondary w-full h-full max-w-xs"
-                  name="flair"
-                >
-                  {flairs.map((f) => (
-                    <option value={f} key={f}>
-                      {f}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* <div className="flex-1 basis-3/4 h-full"> */}
+              <input
+                name="title"
+                className="input border border-white h-full w-full px-4"
+                placeholder="Title"
+                required
+              />
+              {/* </div> */}
             </div>
             <div className="flex w-full h-96 py-8">
               <textarea
@@ -87,13 +75,28 @@ export default function Write() {
               />
             </div>
 
-            <div className="flex mt-8 justify-end text-center">
-              <input
-                type="submit"
-                className="btn btn-outline btn-primary"
-                placeholder="Submit"
-              />
+            <div className="flex w-full items-center space-x-4 h-14">
+              <div className="flex-1 basis-3/4 h-full">
+                <select
+                  className="select border border-white w-full h-full max-w-xs"
+                  name="flair"
+                >
+                  {flairs.map((f) => (
+                    <option value={f} key={f}>
+                      {f}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex-1 basis-1/4 h-full text-center">
+                <input
+                  type="submit"
+                  className="btn btn-outline btn-circle h-full w-full"
+                  placeholder="Submit"
+                />
+              </div>
             </div>
+
             <input name="author_authId" value={authId} hidden />
           </form>
         </div>
