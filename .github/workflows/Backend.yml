@@ -24,6 +24,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.PASSWORD }}
       - name: Build and Push
-        run: mvn clean package jib:build
+        working-directory: ./daevit-backend
+        run: mvn clean package jib:build 
         env:
           DOCKER_USERNAME: ${{ github.actor }}
