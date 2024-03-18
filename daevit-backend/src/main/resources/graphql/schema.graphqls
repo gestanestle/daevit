@@ -8,10 +8,10 @@ type Query {
   hasShare(postId: Int, authId: String): Boolean
 
   getUserBy(username: String): User
-  getPostsBy(username: String, postOffset: Int, postCount: Int): [Post]
-  getLikedBy(username: String, likeOffset: Int, likeCount: Int): [Post]
-  getCommentsBy(username: String, commentOffset: Int, commentCount: Int): [Comment]
-  getSharedBy(username: String, shareOffset: Int, shareCount: Int): [Post]
+  getPostsBy(username: String, offset: Int, count: Int): [Post]
+  getLikedBy(username: String, offset: Int, count: Int): [Post]
+  getCommentsBy(username: String, offset: Int, count: Int): [Comment]
+  getSharedBy(username: String, offset: Int, count: Int): [Post]
 }
 
 type Mutation {

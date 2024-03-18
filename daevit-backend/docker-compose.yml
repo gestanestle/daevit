@@ -13,8 +13,21 @@ services:
     networks:
       - daevit-server-network
 
+  backend:
+    container_name: daevit-backend
+    image: gestanestle/daevit-server:0.0.1-SNAPSHOT
+    ports:
+      - "8081:8081"
+    environment:
+      - POSTGRES_HOST=postgres
+    networks:
+      - daevit-server-network
+
 
 networks:
   daevit-server-network:
     name: daevit-server-network
 
+0:
+  0:
+    1-SNAPSHOT:

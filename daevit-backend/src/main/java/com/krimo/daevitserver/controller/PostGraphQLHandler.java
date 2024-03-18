@@ -135,23 +135,23 @@ public class PostGraphQLHandler {
     public User getUserBy(@Argument String username) { return userService.getByUsername(username); }
 
     @QueryMapping
-    public List<Post> getPostsBy(@Argument String username,  @Argument int postOffset, @Argument int postCount) {
-        return postService.getPostsBy(username, postOffset, postCount);
+    public List<Post> getPostsBy(@Argument String username,  @Argument int offset, @Argument int count) {
+        return postService.getPostsBy(username, offset, count);
     }
 
     @QueryMapping
-    public List<Post> getLikedBy(@Argument String username, @Argument int likeOffset, @Argument int likeCount) {
-        return postService.getLikedBy(username, likeOffset, likeCount);
+    public List<Post> getLikedBy(@Argument String username, @Argument int offset, @Argument int count) {
+        return postService.getLikedBy(username,  offset, count);
     }
 
     @QueryMapping
-    public List<Comment> getCommentsBy(@Argument String username, @Argument int commentOffset, @Argument int commentCount) {
-        return commentService.getCommentsBy(username, commentOffset, commentCount);
+    public List<Comment> getCommentsBy(@Argument String username, @Argument int offset, @Argument int count) {
+        return commentService.getCommentsBy(username,  offset, count);
     }
 
     @QueryMapping
-    public List<Post> getSharedBy(@Argument String username, @Argument int shareOffset, @Argument int shareCount) {
-        return postService.getSharedBy(username, shareOffset, shareCount);
+    public List<Post> getSharedBy(@Argument String username, @Argument int offset, @Argument int count) {
+        return postService.getSharedBy(username,  offset, count);
 
     }
 }
